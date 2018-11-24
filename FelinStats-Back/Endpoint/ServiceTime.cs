@@ -41,14 +41,14 @@ namespace FelinStats_Back.Endpoint
                     else
                         mtbfDic[datas[0]].Add(dt);
                 }
-                Dictionary<string, int> final = new Dictionary<string, int>();
+                Dictionary<string, Tuple<int, string>> final = new Dictionary<string, Tuple<int, string>>();
                 foreach (var k in mtbfDic)
-                    final.Add(k.Key, (int)(DateTime.Now - k.Value[k.Value.Count - 1]).TotalDays);
-                final.ToList().Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
-                Dictionary<string, int> sortedList = new Dictionary<string, int>();
+                    final.Add(k.Key, new Tuple<int, string>((int)(DateTime.Now - k.Value[k.Value.Count - 1]).TotalDays, k.Value[k.Value.Count - 1].ToString("dd/MM/yyy")));
+                final.ToList().Sort((pair1, pair2) => pair1.Value.Item1.CompareTo(pair2.Value.Item1));
+                Dictionary<string, Tuple<int, string>> sortedList = new Dictionary<string, Tuple<int, string>>();
                 foreach (var k in final.OrderByDescending(x2 => x2.Value))
                     sortedList.Add(k.Key, k.Value);
-                return (Response.AsJson(new Response.Histogram()
+                return (Response.AsJson(new Response.ServiceTime()
                 {
                     Code = 200,
                     Value = sortedList

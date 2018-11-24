@@ -31,7 +31,7 @@ namespace FelinStats_Back.Endpoint
                     string[] datas = s.Split(';');
                     if (datas[0] == "")
                         continue;
-                    DateTime dt = DateTime.ParseExact(datas[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    DateTime dt = DateTime.ParseExact(datas[1], "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     if (!mtbfDic.ContainsKey(datas[0]))
                     {
                         var time = new List<DateTime>();
@@ -51,8 +51,10 @@ namespace FelinStats_Back.Endpoint
                 }
                 Dictionary<string, int> final = new Dictionary<string, int>();
                 int[] values = Enumerable.Repeat(0, 15).ToArray();
+                int sum = 0;
                 foreach (var k in days)
                 {
+                    sum += k;
                     int val = k / 50;
                     if (val > 14)
                         values[14]++;
@@ -63,10 +65,11 @@ namespace FelinStats_Back.Endpoint
                     final.Add(i + " - " + (i + 50), values[y]);
                 final.Add("700+", values[14]);
 
-                return (Response.AsJson(new Response.Histogram()
+                return (Response.AsJson(new Response.Mbtf()
                 {
                     Code = 200,
-                    Value = final
+                    Value = final,
+                    Mean = sum / days.Count
                 })
                 .WithHeader("Access-Control-Allow-Origin", "*")
                 .WithHeader("Access-Control-Allow-Methods", "POST,GET")

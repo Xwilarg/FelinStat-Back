@@ -57,10 +57,14 @@
     <Compile Include="Endpoint\MtbfNow.cs" />
     <Compile Include="Endpoint\Mttr.cs" />
     <Compile Include="Endpoint\ServiceTime.cs" />
+    <Compile Include="Endpoint\Weapon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Histogram.cs" />
     <Compile Include="Response\Error.cs" />
+    <Compile Include="Response\Mbtf.cs" />
+    <Compile Include="Response\ServiceTime.cs" />
+    <Compile Include="Response\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

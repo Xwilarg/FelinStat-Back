@@ -11,7 +11,7 @@ namespace FelinStats_Back.Endpoint
                 return (Response.AsJson(new Response.Error()
                 {
                     Code = 200,
-                    Message = "Available endpoints: Mttr"
+                    Message = "Available endpoints: mttr.json, mtbf.json, mtbfNow.json, serviceTime.json, weapon.json"
                 })
                 .WithHeader("Access-Control-Allow-Origin", "*")
                 .WithHeader("Access-Control-Allow-Methods", "POST,GET")
