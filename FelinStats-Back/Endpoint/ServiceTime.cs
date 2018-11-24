@@ -11,7 +11,7 @@ namespace FelinStats_Back.Endpoint
     {
         public ServiceTime() : base("/serviceTime.json")
         {
-            // Time between 2 failures
+            // Time between 2 maintenance
             Get("/", x =>
             {
                 if (!File.Exists("serviceTime.txt"))

@@ -1,6 +1,5 @@
 ﻿using Nancy;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,7 +11,7 @@ namespace FelinStats_Back.Endpoint
     {
         public MtbfNow() : base("/mtbfNow.json")
         {
-            // Time between 2 failures
+            // Some informations about a weapon given it ID
             Get("/", x =>
             {
                 if (!File.Exists("serviceTime.txt"))

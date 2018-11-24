@@ -11,7 +11,7 @@ namespace FelinStats_Back.Endpoint
     {
         public Mtbf() : base("/mtbf.json")
         {
-            // Time between 2 failures
+            // Time between 2 maintenance
             Get("/", x =>
             {
                 if (!File.Exists("mtbf.txt"))
