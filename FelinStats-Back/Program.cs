@@ -20,7 +20,7 @@ namespace FelinStats_Back
             {
                 UrlReservations = new UrlReservations() { CreateAutomatically = true }
             };
-            NancyHost host = new NancyHost(config, new Uri("http://localhost:8080/"));
+            NancyHost host = new NancyHost(config, new Uri("http://localhost:8082/"));
             host.Start();
             Console.WriteLine("Host Started... Do ^C to exit.");
             Console.CancelKeyPress += (sender, e) =>
