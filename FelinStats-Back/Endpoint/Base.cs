@@ -4,14 +4,14 @@ namespace FelinStats_Back.Endpoint
 {
     public class Base : NancyModule
     {
-        public Base()
+        public Base()  : base("/")
         {
             Get("/", x =>
             {
-                return (Response.AsJson(new Response.Sample()
+                return (Response.AsJson(new Response.Error()
                 {
                     Code = 200,
-                    Message = "Sample message, nothing to be done here..."
+                    Message = "Available endpoints: Mttr"
                 }));
             });
         }

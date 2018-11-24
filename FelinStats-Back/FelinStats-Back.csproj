@@ -53,9 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Endpoint\Base.cs" />
+    <Compile Include="Endpoint\Mttr.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response\Sample.cs" />
+    <Compile Include="Response\Histogram.cs" />
+    <Compile Include="Response\Error.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

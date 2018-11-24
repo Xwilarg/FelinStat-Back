@@ -2,7 +2,7 @@
 
 namespace FelinStats_Back.Response
 {
-    public class Sample
+    public class Error
     {
         [JsonProperty]
         public int Code { set; get; }
