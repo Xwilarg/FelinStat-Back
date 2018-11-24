@@ -1,6 +1,9 @@
 ﻿using Nancy;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace FelinStats_Back.Endpoint
 {
@@ -22,16 +25,48 @@ namespace FelinStats_Back.Endpoint
                     .WithHeader("Access-Control-Allow-Headers", "Accept, Origin, Content-type"));
 
                 string[] lines = File.ReadAllLines("mtbf.txt");
-                Dictionary<string, int> mtbfDic = new Dictionary<string, int>();
+                SortedDictionary<string, List<DateTime>> mtbfDic = new SortedDictionary<string, List<DateTime>>();
                 foreach (string s in lines)
                 {
                     string[] datas = s.Split(';');
-                    mtbfDic.Add(datas[0], int.Parse(datas[1]));
+                    if (datas[0] == "")
+                        continue;
+                    DateTime dt = DateTime.ParseExact(datas[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    if (!mtbfDic.ContainsKey(datas[0]))
+                    {
+                        var time = new List<DateTime>();
+                        time.Add(dt);
+                        mtbfDic.Add(datas[0], time);
+                    }
+                    else
+                        mtbfDic[datas[0]].Add(dt);
                 }
+                List<int> days = new List<int>();
+                foreach (var k in mtbfDic)
+                {
+                    for (int i = 1; i < k.Value.Count; i++)
+                    {
+                        days.Add((int)(k.Value[i] - k.Value[i - 1]).TotalDays);
+                    }
+                }
+                Dictionary<string, int> final = new Dictionary<string, int>();
+                int[] values = Enumerable.Repeat(0, 15).ToArray();
+                foreach (var k in days)
+                {
+                    int val = k / 50;
+                    if (val > 14)
+                        values[14]++;
+                    else
+                        values[val]++;
+                }
+                for (int i = 0, y = 0; i < 700; i += 50, y++)
+                    final.Add(i + " - " + (i + 50), values[y]);
+                final.Add("700+", values[14]);
+
                 return (Response.AsJson(new Response.Histogram()
                 {
                     Code = 200,
-                    Value = mtbfDic
+                    Value = final
                 })
                 .WithHeader("Access-Control-Allow-Origin", "*")
                 .WithHeader("Access-Control-Allow-Methods", "POST,GET")
