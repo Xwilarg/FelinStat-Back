@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace FelinStats_Back.Endpoint
 {
@@ -42,13 +43,15 @@ namespace FelinStats_Back.Endpoint
                 }
                 Dictionary<string, int> final = new Dictionary<string, int>();
                 foreach (var k in mtbfDic)
-                {
                     final.Add(k.Key, (int)(DateTime.Now - k.Value[k.Value.Count - 1]).TotalDays);
-                }
+                final.ToList().Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+                Dictionary<string, int> sortedList = new Dictionary<string, int>();
+                foreach (var k in final.OrderByDescending(x2 => x2.Value))
+                    sortedList.Add(k.Key, k.Value);
                 return (Response.AsJson(new Response.Histogram()
                 {
                     Code = 200,
-                    Value = final
+                    Value = sortedList
                 })
                 .WithHeader("Access-Control-Allow-Origin", "*")
                 .WithHeader("Access-Control-Allow-Methods", "POST,GET")
