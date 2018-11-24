@@ -12,7 +12,10 @@ namespace FelinStats_Back.Endpoint
                 {
                     Code = 200,
                     Message = "Available endpoints: Mttr"
-                }));
+                })
+                .WithHeader("Access-Control-Allow-Origin", "*")
+                .WithHeader("Access-Control-Allow-Methods", "POST,GET")
+                .WithHeader("Access-Control-Allow-Headers", "Accept, Origin, Content-type"));
             });
         }
     }
